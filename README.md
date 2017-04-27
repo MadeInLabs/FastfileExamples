@@ -1,6 +1,21 @@
 # FastfileExamples
 Here you can see a short example of Fastfiles (fastlane file that contains the famous lanes) to Android
 
+# Any Platform
+
+## Type "live" the release note
+
+In the beginning of fastlane execution, a prompt is shown, waiting the release notes of the current version be typed.  To do this, its simple:
+
+```ruby
+release_notes = prompt(
+                  text: "Release notes: ",
+                  multi_line_end_keyword: "END"
+                )
+```
+
+When prompt receives the value of the key *multi_line_end_keyword*, it will close and save the result (without the end keyword) in release_notes variable to be used in the release.
+
 # Android Platform
 
 ## Get version name plugin
@@ -16,19 +31,6 @@ If it isn't installed yet (you can verify executing "fastlane actions gradle" in
 ```shell
 $ fastlane add_plugin get_version_name
 ```
-
-## Type "live" the release note
-
-In the beginning of fastlane execution, a prompt is shown, waiting the release notes of the current version be typed.  To do this, its simple:
-
-```ruby
-release_notes = prompt(
-                  text: "Release notes: ",
-                  multi_line_end_keyword: "END"
-                )
-```
-
-When prompt receives the value of the key *multi_line_end_keyword*, it will close and save the result (without the end keyword) in release_notes variable to be used in the release.
 
 ## Distribute by Crashlytics
 
