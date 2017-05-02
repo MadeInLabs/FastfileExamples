@@ -16,8 +16,8 @@ fastlane_version "2.14.2"
 default_platform :android
 
 platform :android do
-    version = get_version_name #get_version_name is a fastlane plugin, execute 'fastlane add_plugin get_version_name' to install
-    release_notes = prompt(
+    $version = get_version_name #get_version_name is a fastlane plugin, execute 'fastlane add_plugin get_version_name' to install
+    $release_notes = prompt(
                       text: "Release notes: ",
                       multi_line_end_keyword: "END"
                     )
@@ -29,7 +29,7 @@ platform :android do
                     groups: "group_alias_goes_here, group_alias_goes_here2",
                     notifications: true,
                     apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
-                    notes: release_notes
+                    notes: $release_notes
                 )
     end
 
@@ -71,8 +71,8 @@ platform :android do
         slack(
             message: "We have a new version: ",
             payload: {
-                'Version' => version,
-                'Release Notes' => release_notes,
+                'Version' => $version,
+                'Release Notes' => $release_notes,
                 'Flavor' => lane_context[SharedValues::GRADLE_FLAVOR],
             },
             default_payloads: [],
