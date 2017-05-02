@@ -69,7 +69,7 @@ platform :android do
     after_all do |lane|
         # This block is called, only if the executed lane was successful
         slack(
-            message: "Nova versão do Univer: ",
+            message: "We have a new version: ",
             payload: {
                 'Version' => version,
                 'Release Notes' => release_notes,
