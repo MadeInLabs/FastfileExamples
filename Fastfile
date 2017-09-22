@@ -16,7 +16,7 @@ fastlane_version "2.14.2"
 default_platform :android
 
 platform :android do
-    $version = get_version_name #get_version_name is a fastlane plugin, execute 'fastlane add_plugin get_version_name' to install
+    $version = get_version_name #get_version_name is a fastlane plugin, execute '[sudo] fastlane add_plugin get_version_name' to install
     $release_notes = prompt(
                       text: "Release notes: ",
                       multi_line_end_keyword: "END"
@@ -47,6 +47,8 @@ platform :android do
     desc "Submit a new Build to Crashlytics Beta with homologation API links"
     lane :homol do
         gradle(task: "clean")
+        gradle(task: "test")
+        gradle(task: "connectedAndroidTest")
         gradle(
             task: "assemble",
             flavour: "Homol", #If you have a flavour
@@ -58,6 +60,8 @@ platform :android do
     desc "Submit a new Build to Crashlytics Beta with production API links"
     lane :prod do
         gradle(task: "clean")
+        gradle(task: "test")
+        gradle(task: "connectedAndroidTest")
         gradle(
             task: "assemble",
             flavor: "Prod", #If you have a flavour
@@ -69,7 +73,7 @@ platform :android do
     after_all do |lane|
         # This block is called, only if the executed lane was successful
         slack(
-            message: "We have a new version: ",
+            message: "We have a new version of [Project name] to Android: ",
             payload: {
                 'Version' => $version,
                 'Release Notes' => $release_notes,
