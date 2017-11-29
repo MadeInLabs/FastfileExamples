@@ -51,7 +51,7 @@ platform :android do
         gradle(task: "connectedAndroidTest")
         gradle(
             task: "assemble",
-            flavour: "Homol", #If you have a flavour
+            flavor: "Homol", #If you have a flavor
             build_type: "Release"
         )
         crashlyticsDefault
@@ -64,7 +64,7 @@ platform :android do
         gradle(task: "connectedAndroidTest")
         gradle(
             task: "assemble",
-            flavor: "Prod", #If you have a flavour
+            flavor: "Prod", #If you have a flavor
             build_type: "Release"
         )
         crashlyticsDefault
