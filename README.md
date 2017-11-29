@@ -76,7 +76,7 @@ But if you want add a specific flavor, this can be done:
 ```ruby
 gradle(
     task: "assemble",
-    flavour: "Homol",
+    flavor: "Homol",
     build_type: "Release"
 )
 ```
