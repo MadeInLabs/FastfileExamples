@@ -32,28 +32,33 @@ If it isn't installed yet (you can verify executing "fastlane actions gradle" in
 $ fastlane add_plugin get_version_name
 ```
 
-## Distribute by Crashlytics
+## Distribute by Firebase App Distribution
 
-If you don't know [Crashlytics](https://try.crashlytics.com/), you must be. If you do, let's go: fastlane helps you, with a simple syntax, distribute the .apk to specific emails and even specific group of emails predeterminate with its alias.
+If you don't know [App Distribution](https://firebase.google.com/docs/app-distribution), you must. If you do, let's go: fastlane helps you, with a simple syntax, distribute the .apk to specific emails.
 
-It's necessary put the *api token* and *build_secret* to link with your [fabric.io](https://fabric.io) account. These numbers can be found in
+First you need isntall [Firebase CLI](https://firebase.google.com/docs/cli?hl=pt-br) with:
 
-> *Settings* -> *Organizations* -> *API Key* or *Build Secret*
+```bash
+curl -sL firebase.tools | bash
+```
 
-Other important thing to do is set the apk path. Gradle had, in the fastlane context, a variable with this value:
+And install the fastlane plugin:
+```bash
+sudo fastlane add_plugin firebase_app_distribution
+```
 
-> *lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]*
+Then, you must get your app id on Firebase Console at Settings menu that looks like "1:1111111111111:android:1aaaaaaaaaa111aaaaaaaa".
 
-So the whole crashlytics action is:
+So the whole App Distribution action is:
 
 ```ruby
-crashlytics(
-    api_token: "api_token_goes_here",
-    build_secret: "build_secret_goes_here",
-    groups: "group_alias_goes_here, group_alias_goes_here2",
-    notifications: true,
-    apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
-    notes: release_notes
+firebase_app_distribution(
+    app: "1:...:android:...",
+    testers: "tester1@company.com, tester2@company.com",
+    # or
+    # groups: "group-alias",
+    firebase_cli_path: "/usr/local/bin/firebase",
+    release_notes: $release_notes
 )
 ```
 
