@@ -21,16 +21,14 @@ platform :android do
                       text: "Release notes: ",
                       multi_line_end_keyword: "END"
                     )
-
-    def crashlyticsDefault
-        crashlytics(
-                    api_token: "api_token_goes_here",
-                    build_secret: "build_secret_goes_here",
-                    groups: "group_alias_goes_here, group_alias_goes_here2",
-                    notifications: true,
-                    apk_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH],
-                    notes: $release_notes
-                )
+    #Install firebase plugin for fastlane 'sudo fastlane add_plugin firebase_app_distribution'
+    def firebaseAppDistributionDefault
+        firebase_app_distribution(
+            app: app_id_goes_here, #Something like "1:###:android:###"
+            groups: "madeinweb-e-mobile", #This group must be created at App Distribution at Side Menu
+            firebase_cli_path: "/usr/local/bin/firebase", #This path may be changed. You need to execute install Firebase CLI. For Mac users, this command was tested: 'curl -sL firebase.tools | bash'
+            release_notes: $release_notes
+        )
     end
 
     before_all do
@@ -54,7 +52,7 @@ platform :android do
             flavor: "Homol", #If you have a flavor
             build_type: "Release"
         )
-        crashlyticsDefault
+        firebaseAppDistributionDefault
     end
 
     desc "Submit a new Build to Crashlytics Beta with production API links"
@@ -67,7 +65,7 @@ platform :android do
             flavor: "Prod", #If you have a flavor
             build_type: "Release"
         )
-        crashlyticsDefault
+        firebaseAppDistributionDefault
     end
 
     after_all do |lane|
